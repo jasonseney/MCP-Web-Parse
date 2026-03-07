@@ -3,7 +3,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { parse, WebParseLiteError } from "@js0n-dev/web-parse-lite";
+import { parse, discover, WebParseLiteError } from "@js0n-dev/web-parse-lite";
 
 const server = new McpServer({
   name: "mcp-web-parse",
@@ -78,6 +78,78 @@ server.tool(
                 method,
                 data: result.data,
                 format: result.format,
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
+    } catch (error) {
+      if (error instanceof WebParseLiteError) {
+        return {
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify(
+                {
+                  error: true,
+                  type: error.type,
+                  message: error.message,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+          isError: true,
+        };
+      }
+
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(
+              {
+                error: true,
+                type: "unknown",
+                message:
+                  error instanceof Error
+                    ? error.message
+                    : "An unexpected error occurred",
+              },
+              null,
+              2
+            ),
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
+);
+
+server.tool(
+  "discover",
+  "Discover the structure of a web page by analyzing its HTML and returning the most common CSS selectors with sample text. Use this before web_parse to find the right selectors.",
+  {
+    url: z.string().describe("The URL to fetch and analyze"),
+  },
+  async ({ url }) => {
+    try {
+      const result = await discover({ url });
+
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(
+              {
+                success: true,
+                url,
+                selectors: result.selectors,
+                sample: result.sample,
               },
               null,
               2

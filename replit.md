@@ -1,6 +1,6 @@
 # mcp-web-parse
 
-An MCP (Model Context Protocol) server that exposes a `web_parse` tool for parsing web pages using CSS selectors.
+An MCP (Model Context Protocol) server that exposes tools for discovering page structure and parsing web pages using CSS selectors.
 
 ## Architecture
 
@@ -8,14 +8,14 @@ An MCP (Model Context Protocol) server that exposes a `web_parse` tool for parsi
 - **Transport**: stdio (MCP standard)
 - **Dependencies**:
   - `@modelcontextprotocol/sdk` — official MCP TypeScript SDK
-  - `@js0n-dev/web-parse-lite` — HTML parsing library
+  - `@js0n-dev/web-parse-lite` (v0.2.0) — HTML parsing and page discovery library
   - `zod` — schema validation (used by MCP SDK)
 
 ## Project Structure
 
 ```
 src/
-  index.ts     — MCP server entry point, registers the web_parse tool
+  index.ts     — MCP server entry point, registers web_parse and discover tools
 dist/
   index.js     — compiled output
 test.sh        — CLI test script (sends JSON-RPC messages to the server)
@@ -23,13 +23,19 @@ package.json
 tsconfig.json
 ```
 
-## Tool: web_parse
+## Tools
 
-Parameters:
+### web_parse
+Parse web page content by URL, CSS selector, and extraction method.
 - `url` (string, required) — URL to parse
 - `selector` (string, required) — CSS selector
 - `method` ("text" | "html" | "attribute") — extraction method
 - `attribute` (string, optional) — required when method is "attribute"
+
+### discover
+Analyze a web page's HTML structure and return the most common CSS selectors with sample text. Use before `web_parse` to find the right selectors.
+- `url` (string, required) — URL to fetch and analyze
+- Returns: top 30 selectors ranked by frequency + sample text snippets
 
 ## Build & Run
 

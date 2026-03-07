@@ -13,7 +13,7 @@
     "dev": "tsc && node dist/index.js"
   },
   "dependencies": {
-    "@js0n-dev/web-parse-lite": "^0.1.0",
+    "@js0n-dev/web-parse-lite": "^0.2.0",
     "@modelcontextprotocol/sdk": "^1.27.1",
     "@types/node": "^25.3.5",
     "typescript": "^5.9.3",
