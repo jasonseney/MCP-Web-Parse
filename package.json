@@ -14,11 +14,8 @@
   },
   "dependencies": {
     "@js0n-dev/web-parse-lite": "^0.1.0",
-    "@modelcontextprotocol/inspector": "^0.15.0",
     "@modelcontextprotocol/sdk": "^1.27.1",
-    "@types/http-proxy": "^1.17.17",
     "@types/node": "^25.3.5",
-    "http-proxy": "^1.18.1",
     "typescript": "^5.9.3",
     "zod": "^4.3.6"
   }

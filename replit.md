@@ -15,12 +15,10 @@ An MCP (Model Context Protocol) server that exposes a `web_parse` tool for parsi
 
 ```
 src/
-  index.ts            — MCP server entry point, registers the web_parse tool
-  inspector-proxy.ts  — reverse proxy for MCP Inspector (serves UI + proxies API on single port)
+  index.ts     — MCP server entry point, registers the web_parse tool
 dist/
-  index.js            — compiled MCP server
-  inspector-proxy.js  — compiled inspector proxy
-test.sh               — CLI test script
+  index.js     — compiled output
+test.sh        — CLI test script (sends JSON-RPC messages to the server)
 package.json
 tsconfig.json
 ```
@@ -44,13 +42,7 @@ npm run dev      # build + run
 ## Testing
 
 - `bash test.sh` — sends JSON-RPC messages to the server and displays init, tool list, and a sample parse result
-- **MCP Inspector** workflow — interactive web UI on port 5000 for browsing and calling tools with a form interface
-
-## Workflows
-
-- **Start application** — runs the MCP server standalone (`node dist/index.js`)
-- **MCP Inspector** — runs a reverse proxy that serves the Inspector UI and proxies API requests on port 5000
 
 ## Notes
 
-- Replit's TLS certificates cause `INVALID_PURPOSE` errors with Node.js fetch. Set `NODE_TLS_REJECT_UNAUTHORIZED=0` when making HTTPS requests (already configured in test.sh and Inspector workflows).
+- Replit's TLS certificates cause `INVALID_PURPOSE` errors with Node.js fetch. Set `NODE_TLS_REJECT_UNAUTHORIZED=0` when making HTTPS requests (already configured in test.sh and the Start application workflow).
