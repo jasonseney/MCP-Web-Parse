@@ -3,6 +3,8 @@
 echo "=== MCP Web Parse - Test Script ==="
 echo ""
 
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+
 INIT='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test-client","version":"1.0.0"}}}'
 INITIALIZED='{"jsonrpc":"2.0","method":"notifications/initialized"}'
 LIST='{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'
