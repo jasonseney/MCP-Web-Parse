@@ -32,6 +32,9 @@ function createServer() {
         .describe('Required when method is "attribute" — the attribute name to extract'),
     },
     async ({ url, selector, method, attribute }) => {
+
+      onsole.log(`[web_parse] url=${url} selector=${selector} method=${method}`);
+      
       if (method === "attribute" && !attribute) {
         return {
           content: [
@@ -93,6 +96,7 @@ function createServer() {
     },
     async ({ url }) => {
       try {
+        console.log(`[discover] url=${url}`);
         const result = await discover({ url });
 
         return {
