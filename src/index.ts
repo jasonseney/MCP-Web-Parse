@@ -11,7 +11,7 @@ import http from "http";
 // MCP Server definition — tools registered here, transport chosen below
 // ---------------------------------------------------------------------------
 
-function createServer() {
+function createMcpServer() {
   const server = new McpServer({
     name: "mcp-web-parse",
     version: "1.0.0",
@@ -33,7 +33,7 @@ function createServer() {
     },
     async ({ url, selector, method, attribute }) => {
 
-      onsole.log(`[web_parse] url=${url} selector=${selector} method=${method}`);
+      console.log(`[web_parse] url=${url} selector=${selector} method=${method}`);
       
       if (method === "attribute" && !attribute) {
         return {
@@ -149,7 +149,7 @@ async function main() {
 
 // Local: spawn process per session, communicate over stdin/stdout
 async function startStdioServer() {
-  const server = createServer();
+  const server = createMcpServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error("mcp-web-parse running on stdio");
@@ -179,7 +179,7 @@ async function startHttpServer() {
     // MCP endpoint — each POST creates a fresh server+transport pair
     if (req.url === "/mcp") {
       try {
-        const server = createServer();
+        const server = createMcpServer();
         const mcpTransport = new StreamableHTTPServerTransport({
           sessionIdGenerator: undefined, // stateless — no session persistence
         });
